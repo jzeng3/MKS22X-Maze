@@ -23,26 +23,32 @@ public class Maze{
       Scanner inf = new Scanner(mazeFile);
       String mazeString = "";
       while (inf.hasNextLine()){
-        mazeString += inf.nextLine();
+        mazeString += inf.nextLine()+"\n";
       }
       int numRows = 0;
       for (int i = 0; i < mazeString.length(); i++){
-
+        // System.out.println(mazeString.charAt(i));
         if (mazeString.charAt(i) == '\n'){
           numRows++;
         }
       }
-      int numCols = mazeString.length() / numRows;
+      int numCols = ( mazeString.length() - numRows)/ numRows;
       maze = new char[numRows][numCols];
       int index = 0;
       for (int r = 0; r < numRows; r++){
         for (int c = 0; c < numCols; c++){
           maze[r][c] = mazeString.charAt(index);
           index++;
+          if (c == numCols - 1){
+            index++;
+          }
         }
       }
 
       animate = false;
+      for (int i = 0; i < maze.length; i++){
+      System.out.println(Arrays.toString(maze[i]));
+    }
         //COMPLETE CONSTRUCTOR
     }
 
