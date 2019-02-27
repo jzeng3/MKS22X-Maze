@@ -32,24 +32,29 @@ public class Maze{
           numRows++;
         }
       }
-      int numCols = ( mazeString.length() - numRows)/ numRows;
+      int numCols = mazeString.length()/ numRows;
       maze = new char[numRows][numCols];
+      System.out.println("MAZE SIZE: "+ numRows +" X "+numCols);
       int index = 0;
       for (int r = 0; r < numRows; r++){
         for (int c = 0; c < numCols; c++){
           maze[r][c] = mazeString.charAt(index);
           index++;
-          if (c == numCols - 1){
-            index++;
-          }
+          System.out.print(maze[r][c]);
         }
       }
-
-      animate = false;
-      for (int i = 0; i < maze.length; i++){
-      System.out.println(Arrays.toString(maze[i]));
-    }
+      setAnimate(false);
         //COMPLETE CONSTRUCTOR
+    }
+
+    public String toString(){
+      String mazeStr = "";
+      for (int r = 0; r < maze.length; r++){
+        for (int c = 0; c < maze[0].length; c++){
+          mazeStr += maze[r][c];
+        }
+      }
+      return mazeStr;
     }
 
     private void wait(int millis){
