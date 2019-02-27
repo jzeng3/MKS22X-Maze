@@ -25,12 +25,22 @@ public class Maze{
       while (inf.hasNextLine()){
         mazeString += inf.nextLine()+"\n";
       }
+      int numS = 0;
+      int numE = 0;
       int numRows = 0;
       for (int i = 0; i < mazeString.length(); i++){
-        // System.out.println(mazeString.charAt(i));
+        if (mazeString.charAt(i) == 'E'){
+          numE++;
+        }
+        if (mazeString.charAt(i) == 'S'){
+          numS++;
+        }
         if (mazeString.charAt(i) == '\n'){
           numRows++;
         }
+      }
+      if (numS != 1 || numE != 1){
+        throw new IllegalStateException();
       }
       int numCols = mazeString.length()/ numRows;
       maze = new char[numRows][numCols];
@@ -40,7 +50,7 @@ public class Maze{
         for (int c = 0; c < numCols; c++){
           maze[r][c] = mazeString.charAt(index);
           index++;
-          System.out.print(maze[r][c]);
+
         }
       }
       setAnimate(false);
@@ -81,12 +91,23 @@ public class Maze{
     */
     public int solve(){
             //find the location of the S.
-
+        int rowS = 0;
+        int colS = 0;
+        for (int r = 0; r < maze.length; r++){
+          for (int c = 0; c < maze[0].length; c++){
+            if (maze[r][c] == 'S'){
+              rowS = r;
+              colS = c;
+              c = maze[0].length;
+              r = maze.length;
+            }
+          }
+        }
             //erase the S
 
             //and start solving at the location of the s.
-            //return solve(???,???);
-            return 0;
+            return solve(rowS, colS, 1);
+
     }
 
     /*
@@ -102,7 +123,7 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
+    private int solve(int row, int col, int step){ //you can add more parameters since this is private
 
         //automatic animation! You are welcome.
         if(animate){
