@@ -104,7 +104,7 @@ public class Maze{
           }
         }
             //erase the S
-
+            System.out.println(rowS+" "+colS);
             //and start solving at the location of the s.
             return solve(rowS, colS, 1);
 
@@ -131,7 +131,18 @@ public class Maze{
             System.out.println(this);
             wait(20);
         }
-
+        char current = maze[row][col];
+        // base case: stop if end is reached
+        if (current == 'E'){
+          return step;
+        }
+        else{
+          // if spot can be visited
+          if (current == 'S' || current == ' '){
+            maze[row][col] = '@';
+            return solve(row,col+1, step+1);
+          }
+        }
         //COMPLETE SOLVE
         return -1; //so it compiles
     }
