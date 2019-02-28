@@ -136,28 +136,35 @@ public class Maze{
         }
         char current = maze[row][col];
         // base case: stop if end is reached
+        int count = 0;
         if (current == 'E'){
           System.out.println("STEPS: "+step);
-          return step;
+          return count;
         }
         else{
           // if spot can be visited
 
           if (current == 'S' || current == ' '){
             maze[row][col] = '@';
+            count++;
             if (solve(row,col+1, step+1) != -1){
-              return step;
+              System.out.println("INSIDE STEP: "+ step);
+              return count;
             }
-            if (solve(row,col-1, step+1) != -1){
-              return step;
+            else if (solve(row,col-1, step+1) != -1){
+              System.out.println("INSIDE STEP: "+ step);
+              return count;
             }
-            if (solve(row+1,col, step+1) != -1){
-              return step;
+            else if (solve(row+1,col, step+1) != -1){
+              System.out.println("INSIDE STEP: "+ step);
+              return count;
             }
-            if (solve(row-1,col, step+1) != -1){
-              return step;
+            else if (solve(row-1,col, step+1) != -1){
+              System.out.println("INSIDE STEP: "+ step);
+              return count;
             }
             maze[row][col] = '.';
+            count--;
           //  System.out.println("did all solves");
           }
         }
