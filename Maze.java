@@ -21,10 +21,12 @@ public class Maze{
     public Maze(String filename) throws FileNotFoundException{
       File mazeFile = new File(filename);
       Scanner inf = new Scanner(mazeFile);
+      // keep string of the entire maze
       String mazeString = "";
       while (inf.hasNextLine()){
         mazeString += inf.nextLine()+"\n";
       }
+      // finding numbr of starts, ends, and rows
       int numS = 0;
       int numE = 0;
       int numRows = 0;
@@ -42,15 +44,16 @@ public class Maze{
       if (numS != 1 || numE != 1){
         throw new IllegalStateException();
       }
+
       int numCols = mazeString.length()/ numRows;
       maze = new char[numRows][numCols];
       System.out.println("MAZE SIZE: "+ numRows +" X "+numCols);
+      // add characters into the 2d array
       int index = 0;
       for (int r = 0; r < numRows; r++){
         for (int c = 0; c < numCols; c++){
           maze[r][c] = mazeString.charAt(index);
           index++;
-
         }
       }
       setAnimate(false);
@@ -104,9 +107,9 @@ public class Maze{
           }
         }
             //erase the S
-            System.out.println(rowS+" "+colS);
+          //  System.out.println(rowS+" "+colS);
             //and start solving at the location of the s.
-            return solve(rowS, colS, 1);
+            return solve(rowS, colS, 0);
 
     }
 
@@ -134,7 +137,6 @@ public class Maze{
         char current = maze[row][col];
         // base case: stop if end is reached
         if (current == 'E'){
-          maze[row][col] = 'V';
           System.out.println("STEPS: "+step);
           return step;
         }
@@ -143,10 +145,18 @@ public class Maze{
 
           if (current == 'S' || current == ' '){
             maze[row][col] = '@';
-            solve(row,col+1, step+1);
-            solve(row,col-1, step+1);
-            solve(row+1,col, step+1);
-            solve(row-1,col, step+1);
+            if (solve(row,col+1, step+1) != -1){
+              return step;
+            }
+            if (solve(row,col-1, step+1) != -1){
+              return step;
+            }
+            if (solve(row+1,col, step+1) != -1){
+              return step;
+            }
+            if (solve(row-1,col, step+1) != -1){
+              return step;
+            }
             maze[row][col] = '.';
           //  System.out.println("did all solves");
           }
