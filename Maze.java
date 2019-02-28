@@ -140,8 +140,28 @@ public class Maze{
           // if spot can be visited
           if (current == 'S' || current == ' '){
             maze[row][col] = '@';
-            return solve(row,col+1, step+1);
+            int a = solve(row,col+1, step+1);
+            if (a != -1){
+              System.out.println("returning a");
+              return a;
+            }
+            int b = solve(row,col-1, step+1);
+            if (b != -1){
+              System.out.println("returning b");
+              return b;
+            }
+            int c = solve(row+1,col, step+1);
+            if (c != -1){
+              System.out.println("returning c");
+              return c;
+            }
+            int d = solve(row-1,col, step+1);
+            if (d != -1){
+              System.out.println("returning d");
+              return d;
+            }
           }
+
         }
         //COMPLETE SOLVE
         return -1; //so it compiles
