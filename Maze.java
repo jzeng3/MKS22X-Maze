@@ -41,13 +41,13 @@ public class Maze{
           numRows++;
         }
       }
+      // check if there is exactly one start and one end
       if (numS != 1 || numE != 1){
         throw new IllegalStateException();
       }
 
       int numCols = mazeString.length()/ numRows;
       maze = new char[numRows][numCols];
-      System.out.println("MAZE SIZE: "+ numRows +" X "+numCols);
       // add characters into the 2d array
       int index = 0;
       for (int r = 0; r < numRows; r++){
@@ -93,7 +93,7 @@ public class Maze{
       Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
     */
     public int solve(){
-            //find the location of the S.
+        //find the location of the S.
         int rowS = 0;
         int colS = 0;
         for (int r = 0; r < maze.length; r++){
@@ -106,8 +106,8 @@ public class Maze{
             }
           }
         }
-            //erase the S
-          //  System.out.println(rowS+" "+colS);
+            // erase the S (done in helper function)
+
             //and start solving at the location of the s.
             return solve(rowS, colS, 0);
 
@@ -126,7 +126,7 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
-  
+
     private int solve(int row, int col, int step){ //you can add more parameters since this is private
 
         //automatic animation! You are welcome.
@@ -135,21 +135,23 @@ public class Maze{
             System.out.println(this);
             wait(20);
         }
+        // make sure function doesn't go out of bounds
         if (row >= 0 && row < maze.length &&
             col >= 0 && col < maze[0].length){
-        char current = maze[row][col];
-        // base case: stop if end is reached
-        int count = step;
-        if (current == 'E'){
-          System.out.println("E STEPS: "+step);
+
+        // base case: stop if end is reached, return number of steps in path 
+        if (maze[row][col] == 'E'){
           return step;
         }
         else{
-          // if spot can be visited
 
+          // if spot can be visited
           if (
-              (current == 'S' || current == ' ') ){
+              (maze[row][col] == 'S' || maze[row][col] == ' ') ){
+            // mark as part of the path
             maze[row][col] = '@';
+
+            // check through each possible move to see if maze can be solved
             int a = solve(row,col+1, step+1);
             if (a != -1){
               return a;
@@ -166,16 +168,12 @@ public class Maze{
             if (a == -1 && b == -1 && c == -1 && d != -1){
               return d;
             }
+            // if not part of path, mark with '.'
             maze[row][col] = '.';
-
-          //  System.out.println("did all solves");
           }
         }
       }
-        //COMPLETE SOLVE
+        // return -1 if no solution is found
         return -1; //so it compiles
     }
-
-
-
 }
