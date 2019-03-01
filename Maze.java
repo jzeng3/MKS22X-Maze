@@ -126,6 +126,7 @@ public class Maze{
         All visited spots that were not part of the solution are changed to '.'
         All visited spots that are part of the solution are changed to '@'
     */
+  
     private int solve(int row, int col, int step){ //you can add more parameters since this is private
 
         //automatic animation! You are welcome.
@@ -134,42 +135,47 @@ public class Maze{
             System.out.println(this);
             wait(20);
         }
+        if (row >= 0 && row < maze.length &&
+            col >= 0 && col < maze[0].length){
         char current = maze[row][col];
         // base case: stop if end is reached
-        int count = 0;
+        int count = step;
         if (current == 'E'){
-          System.out.println("STEPS: "+step);
-          return count;
+          System.out.println("E STEPS: "+step);
+          return step;
         }
         else{
           // if spot can be visited
 
-          if (current == 'S' || current == ' '){
+          if (
+              (current == 'S' || current == ' ') ){
             maze[row][col] = '@';
-            count++;
-            if (solve(row,col+1, step+1) != -1){
-              System.out.println("INSIDE STEP: "+ step);
-              return count;
+            int a = solve(row,col+1, step+1);
+            if (a != -1){
+              return a;
             }
-            else if (solve(row,col-1, step+1) != -1){
-              System.out.println("INSIDE STEP: "+ step);
-              return count;
+            int b = solve(row,col-1, step+1);
+            if (a == -1 && b != -1){
+              return b;
             }
-            else if (solve(row+1,col, step+1) != -1){
-              System.out.println("INSIDE STEP: "+ step);
-              return count;
+            int c = solve(row+1,col, step+1);
+            if (a == -1 && b == -1 && c != -1){
+              return c;
             }
-            else if (solve(row-1,col, step+1) != -1){
-              System.out.println("INSIDE STEP: "+ step);
-              return count;
+            int d = solve(row-1,col, step+1);
+            if (a == -1 && b == -1 && c == -1 && d != -1){
+              return d;
             }
             maze[row][col] = '.';
-            count--;
+
           //  System.out.println("did all solves");
           }
         }
+      }
         //COMPLETE SOLVE
         return -1; //so it compiles
     }
+
+
 
 }
